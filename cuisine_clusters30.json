@@ -1,0 +1,120 @@
+{
+    "1": [
+        "chinese"
+    ],
+    "2": [
+        "japanese"
+    ],
+    "3": [
+        "korean"
+    ],
+    "4": [
+        "indonesian",
+        "malaysian"
+    ],
+    "5": [
+        "filipino"
+    ],
+    "6": [
+        "thai",
+        "vietnamese"
+    ],
+    "7": [
+        "laotian"
+    ],
+    "8": [
+        "iranian-persian",
+        "iraqi"
+    ],
+    "9": [
+        "saudi-arabian"
+    ],
+    "10": [
+        "libyan"
+    ],
+    "11": [
+        "moroccan"
+    ],
+    "12": [
+        "greek"
+    ],
+    "13": [
+        "italian"
+    ],
+    "14": [
+        "cuban"
+    ],
+    "15": [
+        "puerto-rican"
+    ],
+    "16": [
+        "egyptian",
+        "lebanese",
+        "palestinian",
+        "turkish"
+    ],
+    "17": [
+        "portuguese",
+        "spanish"
+    ],
+    "18": [
+        "brazilian",
+        "chilean"
+    ],
+    "19": [
+        "peruvian"
+    ],
+    "20": [
+        "mexican",
+        "southwestern-united-states"
+    ],
+    "21": [
+        "colombian"
+    ],
+    "22": [
+        "venezuelan"
+    ],
+    "23": [
+        "indian",
+        "pakistani"
+    ],
+    "24": [
+        "ethiopian"
+    ],
+    "25": [
+        "hungarian",
+        "russian"
+    ],
+    "26": [
+        "belgian",
+        "french",
+        "swiss"
+    ],
+    "27": [
+        "austrian",
+        "canadian",
+        "czech",
+        "danish",
+        "dutch",
+        "english",
+        "finnish",
+        "german",
+        "new-zealand",
+        "northeastern-united-states",
+        "norwegian",
+        "polish",
+        "scottish",
+        "south-african",
+        "southern-united-states",
+        "swedish"
+    ],
+    "28": [
+        "welsh"
+    ],
+    "29": [
+        "australian"
+    ],
+    "30": [
+        "georgian"
+    ]
+}

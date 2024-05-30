@@ -1,0 +1,100 @@
+{
+    "1": [
+        "chinese",
+        "japanese",
+        "korean"
+    ],
+    "2": [
+        "indonesian",
+        "malaysian"
+    ],
+    "3": [
+        "filipino"
+    ],
+    "4": [
+        "thai",
+        "vietnamese"
+    ],
+    "5": [
+        "laotian"
+    ],
+    "6": [
+        "iranian-persian",
+        "iraqi",
+        "saudi-arabian"
+    ],
+    "7": [
+        "libyan",
+        "moroccan"
+    ],
+    "8": [
+        "greek",
+        "italian"
+    ],
+    "9": [
+        "cuban",
+        "puerto-rican"
+    ],
+    "10": [
+        "brazilian",
+        "chilean",
+        "egyptian",
+        "lebanese",
+        "palestinian",
+        "portuguese",
+        "spanish",
+        "turkish"
+    ],
+    "11": [
+        "peruvian"
+    ],
+    "12": [
+        "mexican",
+        "southwestern-united-states"
+    ],
+    "13": [
+        "colombian"
+    ],
+    "14": [
+        "venezuelan"
+    ],
+    "15": [
+        "indian",
+        "pakistani"
+    ],
+    "16": [
+        "ethiopian"
+    ],
+    "17": [
+        "hungarian",
+        "russian"
+    ],
+    "18": [
+        "austrian",
+        "belgian",
+        "canadian",
+        "czech",
+        "danish",
+        "dutch",
+        "english",
+        "finnish",
+        "french",
+        "german",
+        "new-zealand",
+        "northeastern-united-states",
+        "norwegian",
+        "polish",
+        "scottish",
+        "south-african",
+        "southern-united-states",
+        "swedish",
+        "swiss",
+        "welsh"
+    ],
+    "19": [
+        "australian"
+    ],
+    "20": [
+        "georgian"
+    ]
+}

@@ -1,0 +1,90 @@
+{
+    "1": [
+        "chinese",
+        "japanese",
+        "korean"
+    ],
+    "2": [
+        "filipino",
+        "indonesian",
+        "malaysian"
+    ],
+    "3": [
+        "thai",
+        "vietnamese"
+    ],
+    "4": [
+        "laotian"
+    ],
+    "5": [
+        "iranian-persian",
+        "iraqi",
+        "saudi-arabian"
+    ],
+    "6": [
+        "libyan",
+        "moroccan"
+    ],
+    "7": [
+        "brazilian",
+        "chilean",
+        "cuban",
+        "egyptian",
+        "greek",
+        "italian",
+        "lebanese",
+        "palestinian",
+        "portuguese",
+        "puerto-rican",
+        "spanish",
+        "turkish"
+    ],
+    "8": [
+        "peruvian"
+    ],
+    "9": [
+        "mexican",
+        "southwestern-united-states"
+    ],
+    "10": [
+        "colombian",
+        "venezuelan"
+    ],
+    "11": [
+        "indian",
+        "pakistani"
+    ],
+    "12": [
+        "ethiopian"
+    ],
+    "13": [
+        "austrian",
+        "belgian",
+        "canadian",
+        "czech",
+        "danish",
+        "dutch",
+        "english",
+        "finnish",
+        "french",
+        "german",
+        "hungarian",
+        "new-zealand",
+        "northeastern-united-states",
+        "norwegian",
+        "polish",
+        "russian",
+        "scottish",
+        "south-african",
+        "southern-united-states",
+        "swedish",
+        "swiss",
+        "welsh"
+    ],
+    "14": [
+        "australian"
+    ],
+    "15": [
+        "georgian"
+    ]
+}

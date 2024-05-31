@@ -1,215 +1,204 @@
+import random
+from datetime import datetime, timedelta
 import pandas as pd
 import numpy as np
 import joblib
-from datetime import datetime
+from sklearn.feature_extraction.text import TfidfVectorizer
+import json
+import inflect
+import ast
+from scipy.sparse import lil_matrix, csr_matrix
 
-def prioritize_ingredients(ingredients):
-    """
-    This function takes a list of ingredients with their expiry dates, 
-    converts it into a DataFrame, sorts it by expiry date, and returns the sorted DataFrame.
-    It also generates a string of ingredients sorted by their expiry date.
+# ignore warnings
+import warnings
+warnings.filterwarnings('ignore')
 
-    Parameters:
-    ingredients (list of tuples): List of ingredients with their expiry dates. 
-                                   Each tuple contains ('item', 'expiry_date').
+# Load the Recipes dataset
+Recipes = pd.read_csv('../data/RAW_recipes_with_clusters.csv')
 
-    Returns:
-    pd.DataFrame: A DataFrame sorted by the expiry dates.
-    str: A string of ingredients sorted by their expiry dates.
-    """
-    # Convert to DataFrame
-    df = pd.DataFrame(ingredients, columns=['item', 'expiry_date'])
-    # Convert expiry_date to datetime
-    df['expiry_date'] = pd.to_datetime(df['expiry_date'])
-    # Sort by expiry_date
-    df = df.sort_values(by='expiry_date')
+# Load the list of all ingredients
+with open('../data/all_ingredients_list.txt', 'r') as f:
+    all_ingredients_list = [line.strip() for line in f]
 
-    # Generate a string of ingredients sorted by their expiry dates
-    ingredients_str = ' '.join(df['item'].tolist())
+# Initialize inflect engine for singularizing ingredients
+p = inflect.engine()
 
-    return df, ingredients_str
+def to_singular(ingredient):
+    return p.singular_noun(ingredient) or ingredient
 
-def load_model_and_vectorizer(model_path, vectorizer_path):
-    """
-    This function loads the classification model and TF-IDF vectorizer from the specified paths.
+# Define a function to process a list of ingredients
+def process_ingredient_list(ingredient_list):
+    return [to_singular(ingredient) for ingredient in ingredient_list]
 
-    Parameters:
-    model_path (str): The file path to the classification model.
-    vectorizer_path (str): The file path to the TF-IDF vectorizer.
+def generate_random_date():
+    today = datetime.now()
+    random_days = random.randint(1, 20)
+    expiration_date = today + timedelta(days=random_days)
+    return expiration_date.strftime("%Y-%m-%d")
 
-    Returns:
-    model: The loaded classification model.
-    vectorizer: The loaded TF-IDF vectorizer.
-    """
-    model = joblib.load(model_path)
-    vectorizer = joblib.load(vectorizer_path)
-    return model, vectorizer
+def get_user_openness():
+    print("On a scale of 1 to 5, how open are you to trying different cuisines?")
+    print("1: Not open at all")
+    print("2: Slightly open")
+    print("3: Moderately open")
+    print("4: Very open")
+    print("5: Extremely open")
+    return int(input("Enter a number between 1 and 5: "))
 
-def predict_cuisine(ingredients_str, model_path, vectorizer_path):
-    """
-    This function predicts the cuisine based on the ingredients string.
+def get_user_ingredients():
+    ingredients = {}
+    print("\nEnter your ingredients and expiration dates (format: ingredient;YYYY-MM-DD). Type 'done' when finished:")
+    while True:
+        user_input = input("Ingredient and Expiration Date: ").strip()
+        if user_input.lower() == 'done':
+            break
+        try:
+            ingredient, date_str = user_input.split(';')
+            expiration_date = datetime.strptime(date_str, '%Y-%m-%d')  # Validate date format
+            if expiration_date < datetime.now():
+                print(f"{ingredient.strip()} is expired and will be ignored.")
+            else:
+                ingredients[ingredient.strip()] = date_str.strip()
+        except ValueError:
+            print("Invalid format. Please enter in the format: ingredient;YYYY-MM-DD")
+    return ingredients
 
-    Parameters:
-    ingredients_str (str): A string of ingredients.
-    model_path (str): The file path to the classification model.
-    vectorizer_path (str): The file path to the TF-IDF vectorizer.
+def display_ingredients_with_expiration(df_ingredients):
+    print("\nIngredients with Expiration Dates:")
+    df_display = df_ingredients[['Expiration_Date', 'Days_Left']].copy()
+    df_display['Expiration_Date'] = df_display['Expiration_Date'].dt.strftime('%Y-%m-%d')
+    # sort by Days_Left
+    df_display = df_display.sort_values(by='Days_Left', ascending=True)
+    print(df_display)
 
-    Returns:
-    str: The predicted cuisine.
-    """
-    # Load the classification model and TF-IDF vectorizer
-    loaded_model, tfidf_vectorizer = load_model_and_vectorizer(model_path, vectorizer_path)
+def display_recipe(index):
+    recipe = Recipes_Preffered.iloc[index]
+    print(f"\nRecipe Name: {recipe['name']}")
+    print("\nIngredients:")
+    for ingredient in ast.literal_eval(recipe['replaced_ingredients']):
+        print(f"- {ingredient}")
+    print("\nSteps:")
+    for i, step in enumerate(ast.literal_eval(recipe['steps']), 1):
+        print(f"Step {i}: {step}")
+
+def main():
+    global Recipes_Preffered  # Ensure Recipes_Preffered is accessible in display_recipe
+
+    openness_to_different_cuisines = get_user_openness()
     
-    # Transform the ingredients string using the TF-IDF vectorizer
-    ingredients_tfidf = tfidf_vectorizer.transform([ingredients_str])
-    return loaded_model.predict(ingredients_tfidf)[0]
-
-def load_clusters(json_file):
-    """
-    This function loads the cuisine clusters from a JSON file and processes the DataFrame.
-
-    Parameters:
-    json_file (str): The file path to the cuisine clusters JSON file.
-
-    Returns:
-    pd.DataFrame: A processed DataFrame with clusters and cuisines.
-    """
-    clusters_df = pd.read_json(json_file, orient='index')
-    clusters_df = clusters_df.reset_index().rename(columns={'index': 'cluster'})
-    clusters_df = clusters_df.melt(id_vars=['cluster'], value_name='cuisine')
-    clusters_df = clusters_df.dropna(subset=['cuisine']).drop('variable', axis=1).reset_index(drop=True)
-    return clusters_df
-
-def find_cuisine_cluster(predicted_cuisine, clusters_df):
-    """
-    This function finds the cluster for the predicted cuisine and lists all cuisines in the identified cluster.
-
-    Parameters:
-    predicted_cuisine (str): The predicted cuisine.
-    clusters_df (pd.DataFrame): The DataFrame containing cuisine clusters.
-
-    Returns:
-    list: A list of cuisines in the identified cluster.
-    """
-    predicted_cluster = clusters_df[clusters_df['cuisine'] == predicted_cuisine]['cluster'].values[0]
-    cuisine_cluster = clusters_df[clusters_df['cluster'] == predicted_cluster]['cuisine'].tolist()
-    return cuisine_cluster
-
-def load_recipes(csv_file):
-    """
-    This function loads recipes from a CSV file.
-
-    Parameters:
-    csv_file (str): The file path to the recipes CSV file.
-
-    Returns:
-    pd.DataFrame: A DataFrame containing the recipes.
-    """
-    return pd.read_csv(csv_file)
-
-def filter_recipes_by_cuisine(recipes_df, cuisine_cluster):
-    """
-    This function filters recipes based on the predicted cuisine cluster.
-
-    Parameters:
-    recipes_df (pd.DataFrame): The DataFrame containing the recipes.
-    cuisine_cluster (list): A list of cuisines in the identified cluster.
-
-    Returns:
-    pd.DataFrame: A DataFrame containing filtered recipes.
-    """
-    filtered_recipes_df = recipes_df[recipes_df['Cuisine_Tags_str'].isin(cuisine_cluster)]
-    filtered_recipes_df = filtered_recipes_df[['id', 'name', 'Cuisine_Tags_str', 'replaced_ingredients_str', 'steps_str', 'Cuisine_Tags', 'replaced_ingredients', 'steps']]
-    return filtered_recipes_df
-
-def match_ingredients_with_recipes(prioritized_ingredients, filtered_recipes_df):
-    """
-    This function matches ingredients with recipes and lists them in order of expiry date.
-
-    Parameters:
-    prioritized_ingredients (pd.DataFrame): A DataFrame containing prioritized ingredients.
-    filtered_recipes_df (pd.DataFrame): A DataFrame containing filtered recipes.
-
-    Returns:
-    list: A list of matched recipes in dictionary format.
-    """
-    matched_recipes = []
-    for index, row in prioritized_ingredients.iterrows():
-        ingredient = row['item']
-        # Filter recipes that contain the ingredient
-        recipes_with_ingredient = filtered_recipes_df[filtered_recipes_df['replaced_ingredients_str'].str.contains(ingredient)]
-        matched_recipes.extend(recipes_with_ingredient.to_dict(orient='records'))
-    return matched_recipes
-
-def get_file_paths():
-    """
-    This function returns the file paths for the model, vectorizer, clusters JSON file, and recipes CSV file.
-
-    Returns:
-    tuple: A tuple containing the file paths for the model, vectorizer, clusters JSON file, and recipes CSV file.
-    """
-    model_path = '../model/classification_model_SVC_0529.sav'
-    vectorizer_path = '../model/tfidf_vectorizer_0529.sav'
-    clusters_json_file = '../data/cuisine_clusters.json'
-    recipes_csv_file = '../data/RAW_recipes_cleaned.csv'
-    return model_path, vectorizer_path, clusters_json_file, recipes_csv_file
-
-def main(ingredients):
-    # Get file paths
-    model_path, vectorizer_path, clusters_json_file, recipes_csv_file = get_file_paths()
-    
-    # Prioritize ingredients
-    prioritized_ingredients, ingredients_str = prioritize_ingredients(ingredients)
-    
-    # Predict cuisine
-    predicted_cuisine = predict_cuisine(ingredients_str, model_path, vectorizer_path)
-    
-    # Load clusters and find cuisine cluster
-    clusters_df = load_clusters(clusters_json_file)
-    cuisine_cluster = find_cuisine_cluster(predicted_cuisine, clusters_df)
-    
-    # Load and filter recipes
-    recipes_df = load_recipes(recipes_csv_file)
-    filtered_recipes_df = filter_recipes_by_cuisine(recipes_df, cuisine_cluster)
-    
-    # Match ingredients with recipes
-    matched_recipes = match_ingredients_with_recipes(prioritized_ingredients, filtered_recipes_df)
-    matched_recipes_df = pd.DataFrame(matched_recipes)
-    
-    return matched_recipes_df
-
-def display_recipe(matched_recipes_df, recipe_index=0):
-    matched_recipes_df = matched_recipes_df[['id', 'name', 'Cuisine_Tags', 'replaced_ingredients', 'steps']].head(10)
-    matched_recipes_df.columns = ['ID', 'Name', 'Cuisine', 'Ingredients', 'Recipes']
-    
-    if recipe_index < len(matched_recipes_df):
-        recipe_id = matched_recipes_df.iloc[recipe_index]['ID']
-        recipe_name = matched_recipes_df.iloc[recipe_index]['Name']
-        cuisine = matched_recipes_df.iloc[recipe_index]['Cuisine']
-        ingredients = matched_recipes_df.iloc[recipe_index]['Ingredients']
-        recipes = matched_recipes_df.iloc[recipe_index]['Recipes']
-        
-        ingredients = ingredients[1:-1]
-        recipes = recipes[1:-1]
-        cuisine = cuisine[1:-1]
-        
-        recipes = recipes.replace("'", "")
-        ingredients = ingredients.replace("'", "")
-        cuisine = cuisine.replace("'", "")
-        
-        ingredients_list = ingredients.split(',')
-        recipes_list = recipes.split(', ')
-        
-        print('Ingredients:')
-        for ingredient in ingredients_list:
-            print(f"- {ingredient.strip()}")
-        
-        print('\nRecipe:')
-        for step, instruction in enumerate(recipes_list, 1):
-            print(f"Step {step}: {instruction.strip()}")
-        
-        print(f'\nRecipe ID: {recipe_id}')
-        print(f'Recipe Name: {recipe_name}')
-        print(f'Cuisine: {cuisine}')
+    print("\nWould you like to provide your own ingredients? (yes/no)")
+    if input().strip().lower() == 'yes':
+        ingredients_at_home = get_user_ingredients()
     else:
-        print("Recipe index out of range")
+        random_ingredients = [
+            'olive oil', 'chicken drumstick', 'beef', 'parsley', 'salmon',
+            'bacon', 'sugar', 'onion', 'garlic', 'tomato', 'mayonnaise',
+            'cucumber', 'lemon', 'yogurt', 'pepper', 'eggplant', 'milk', 'lamb',
+            'chili', 'potato', 'carrot', 'cabbage', 'broccoli', 'lettuce'
+        ]
+        ingredients_at_home = {ingredient: generate_random_date() for ingredient in random_ingredients}
+        print(f"\nUsing random ingredients: {list(ingredients_at_home.keys())}")
+    
+    ingredients_at_home_processed = process_ingredient_list(list(ingredients_at_home.keys()))
+    ingredients_at_home_appended = [" ".join(ingredients_at_home_processed)]
+    
+    cuisine_ingredient_model = joblib.load('../model/classification_model_SVC_0530.sav')
+    vectorizer = joblib.load('../model/tfidf_vectorizer_0529.sav')
+    
+    # Transform the ingredients at home
+    ingredients_at_home_appended = vectorizer.transform(ingredients_at_home_appended)
+    ingredients_at_home_cuisine_type = cuisine_ingredient_model.predict(ingredients_at_home_appended)[0]
+    print(f"\nThe ingredients you have are similar to the ingredients used in {ingredients_at_home_cuisine_type} cuisine.")
+    
+    # Convert to a DataFrame
+    df_ingredients = pd.DataFrame(list(ingredients_at_home.items()), columns=['Ingredient', 'Expiration_Date'])
+    df_ingredients['Expiration_Date'] = pd.to_datetime(df_ingredients['Expiration_Date'])
+    today = pd.Timestamp(datetime.now())
+    df_ingredients['Days_Left'] = (df_ingredients['Expiration_Date'] - today).dt.days
+    df_ingredients.set_index('Ingredient', inplace=True)
+    
+    # Display ingredients with expiration dates
+    display_ingredients_with_expiration(df_ingredients)
+    print("\nPress Enter to continue...")
+    input("\nPress Enter to continue...")
+    
+    # Create the weighted pantry vector
+    weighted_pantry_vector = np.array([1/(0.01+df_ingredients.at[ingredient, 'Days_Left']) if ingredient in df_ingredients.index else 0 for ingredient in all_ingredients_list])
+    
+    # Load the appropriate cuisine clusters file based on user openness
+    if openness_to_different_cuisines == 1:
+        with open('../data/cuisine_clusters30.json', 'r') as f:
+            clusters_for_recipes = json.load(f)
+    elif openness_to_different_cuisines == 2:
+        with open('../data/cuisine_clusters20.json', 'r') as f:
+            clusters_for_recipes = json.load(f)
+    elif openness_to_different_cuisines == 3:
+        with open('../data/cuisine_clusters15.json', 'r') as f:
+            clusters_for_recipes = json.load(f)
+    elif openness_to_different_cuisines == 4:
+        with open('../data/cuisine_clusters10.json', 'r') as f:
+            clusters_for_recipes = json.load(f)
+    else:
+        with open('../data/cuisine_clusters5.json', 'r') as f:
+            clusters_for_recipes = json.load(f)
+    
+    # Define a dictionary to map each cuisine to its cluster number
+    cuisine_to_cluster = {cuisine: cluster for cluster, cuisines in clusters_for_recipes.items() for cuisine in cuisines}
+    
+    def get_cluster_number(cuisine_tags):
+        return np.int64(cuisine_to_cluster.get(cuisine_tags[0], None))
+    
+    Preferred_cuisine_number = get_cluster_number([ingredients_at_home_cuisine_type])
+    
+    # Filter the recipes based on the preferred cuisine
+    if openness_to_different_cuisines == 1:
+        Recipes_Preffered = Recipes[Recipes['Clusters30'] == Preferred_cuisine_number]
+    elif openness_to_different_cuisines == 2:
+        Recipes_Preffered = Recipes[Recipes['Clusters20'] == Preferred_cuisine_number]
+    elif openness_to_different_cuisines == 3:
+        Recipes_Preffered = Recipes[Recipes['Clusters15'] == Preferred_cuisine_number]
+    elif openness_to_different_cuisines == 4:
+        Recipes_Preffered = Recipes[Recipes['Clusters10'] == Preferred_cuisine_number]
+    else:
+        Recipes_Preffered = Recipes[Recipes['Clusters5'] == Preferred_cuisine_number]
+    
+    Recipes_Preffered.reset_index(drop=True, inplace=True)
+    
+    ingredients_of_recipes = Recipes_Preffered['replaced_ingredients'].apply(ast.literal_eval)
+    Recipes_Preffered['Cuisine_Tags'] = Recipes_Preffered['Cuisine_Tags'].apply(ast.literal_eval)
+    
+    num_recipes = len(ingredients_of_recipes)
+    num_ingredients = len(all_ingredients_list)
+    
+    ingredient_to_index = {ingredient: idx for idx, ingredient in enumerate(all_ingredients_list)}
+    
+    binary_matrix = lil_matrix((num_recipes, num_ingredients), dtype=int)
+    
+    for i, recipe_ingredients in enumerate(ingredients_of_recipes):
+        for ingredient in recipe_ingredients:
+            if ingredient in ingredient_to_index:
+                j = ingredient_to_index[ingredient]
+                binary_matrix[i, j] = 1
+    
+    binary_matrix_csr = binary_matrix.tocsr()
+    weighted_pantry_vector_sparse = csr_matrix(weighted_pantry_vector)
+    recipe_scores = binary_matrix_csr.dot(weighted_pantry_vector_sparse.T)
+    recipe_scores = np.array(recipe_scores.toarray().flatten().tolist())
+    
+    # Find the indices of the 10 largest entries
+    indices_of_largest_entries = np.argsort(recipe_scores)[-10:]
+    
+    index = 0
+    while index < len(indices_of_largest_entries):
+        display_recipe(indices_of_largest_entries[index])
+        print("\nDo you like this recipe? (yes/no)")
+        response = input().strip().lower()
+        if response == 'yes':
+            print("\nEnjoy your meal!")
+            break
+        index += 1
+        if index >= len(indices_of_largest_entries):
+            print("No more recipes to show.")
+            
+if __name__ == "__main__":
+    main()

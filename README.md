@@ -15,7 +15,7 @@ We will follow with further details; however, our work can be summarized into th
 ## Final Product
 
 ```
-Hi! Welcome to the Recipe Recommender System! We use machine learning to recommend recipes based
+Hi! Welcome to Intelligent Recipe Suggestion System For Zero-Waste! We use machine learning to recommend recipes based
 on the ingredients you have at home and your openness to different cuisines. Let's get started!
 
 Would you like to provide your own ingredients? (yes/no)
@@ -26,97 +26,59 @@ You chose: yes
 
 Enter your ingredients and expiration dates (format: ingredient;YYYY-MM-DD). Type 'done' when finished:
 milk is expired and will be ignored.
-bread is expired and will be ignored.
-Added: egg (Expires on: 2024-06-05)
 Invalid format. Please enter in the format: ingredient;YYYY-MM-DD
-Added: mayonnaise (Expires on: 2024-12-01)
-Added: red wine (Expires on: 2025-12-01)
-Added: vinegar (Expires on: 2025-12-01)
+Added: egg (Expires on: 2024-06-05)
 Added: salt (Expires on: 2026-12-01)
-Added: chicken breast (Expires on: 2024-06-12)
 Added: pork (Expires on: 2024-06-12)
-Added: black pepper (Expires on: 2026-12-01)
 Added: oil (Expires on: 2026-12-01)
 
 The ingredients you have are similar to the ingredients used in CHINESE cuisine based on our system.
 
 Next, how open are you to trying different cuisines?
 
-Please rate your openness on a scale of 1 to 5, where 1 means 'very slightly open' and 5 means 'extremely open.
+Please rate your openness on a scale of 1 to 5, where 1 means 'very slightly open' and 5 means 'extremely open'
 1: Very slightly open
 2: Slightly open
 3: Moderately open
 4: Very open
 5: Extremely open
 
-Your openness to different cuisines: 2
+Your openness to different cuisines: 3
 
 Ingredients with Expiration Dates:
-               Expiration_Date  Days_Left
-Ingredient                               
-egg                 2024-06-05          4
-chicken breast      2024-06-12         11
-pork                2024-06-12         11
-mayonnaise          2024-12-01        183
-red wine            2025-12-01        548
-vinegar             2025-12-01        548
-salt                2026-12-01        913
-black pepper        2026-12-01        913
-oil                 2026-12-01        913
+           Expiration_Date  Days_Left
+Ingredient                           
+egg             2024-06-05          4
+pork            2024-06-12         11
+salt            2026-12-01        913
+oil             2026-12-01        913
 
 Press Enter to continue...
 
 Here is a recipe you might like:
 
-Recipe Name: crispie orange chicken rice pilaf salad
+Recipe Name: chin jao ro su  bamboo and bell pepper stir fry
 
 Ingredients:
-- chicken breast
+- pork
 - egg
-- oil
+- sake
+- soy sauce
 - cornstarch
-- flmy
-- salt
-- black pepper
-- orange marmalade
-- orzo pastum
-- olive oil
-- onion
-- celery
-- long grain rice
-- minute rice
-- chicken bouillon
-- red pepper flake
-- boiling water
-- honey
-- carrot
-- broccoli
-- green bean
-- red pepper
-- snow pea pod
-- slivered almond
-- chinese noodle
+- garlic clove
+- fresh ginger
+- oil
+- bell pepper
+- bamboo shoot
+- oyster sauce
+- sugar
 
 Steps:
-Step 1: rice pilaf:
-Step 2: brown orzo in skillet with 1 / 8 c olive oil
-Step 3: saute onions and celery
-Step 4: mix with rice , bouillion , red pepper flakes , water and honey in a casserole dish
-Step 5: bake 350 degrees covered for 30-40 minutes
-Step 6: while the pilaf is cooking , fry the chicken in oil 375 degrees for 3-4 minutes till golden brown
-Step 7: cut chicken into 1" pieces
-Step 8: beat 2 eggs , mix in 2 tblsp oil
-Step 9: dip chicken in egg mixture and coat with mixture of 1c cornstarch and 1 / 2 c flour , salt and pepper
-Step 10: when golden brown , drain on paper towels
-Step 11: keep warm in oven , till time to assemble salad
-Step 12: steam vegetables or microwave 3-4 minutes
-Step 13: assemble salad 4 salad bowls
-Step 14: add to each
-Step 15: divide rice pilaf between 4 bowls -- top off with tender crisp vegetables 5 broccoli florets , 3-4 strips of red pepper , 5 green beans , snapped in half , 6 snow pea pods , 1 tblsp toasted almonds1 tblsp shredded carrots
-Step 16: top off with 1 tblsp chinese noodles
-Step 17: dip hot chicken pieces into 3 / 4 cup warmed orange marmalade
-Step 18: place 7-8 pieces of orange chicken on top of salad
-Step 19: serve while still hot --
+Step 1: combine first 5 ingredients in a bowl
+Step 2: stir fry in oil with the garlic and ginger until brown
+Step 3: add bell peppers and bamboo shoots
+Step 4: stir fry until done , about 5 minutes
+Step 5: add sauce during the last minute or so of cooking time
 
 Do you like this recipe? (yes/no)
 
@@ -124,42 +86,79 @@ You chose: no
 
 Here is a recipe you might like:
 
-Recipe Name: chilli chicken   chinese style
+Recipe Name: needle noodles
 
 Ingredients:
-- chicken breast
-- cornstarch
-- egg
-- vinegar
-- soya sauce
-- salt
-- green chili
-- garlic
+- noodle
+- shrimp
+- pork
+- onion
+- ginger
+- garlic clove
 - green pepper
-- shallot
-- water
-- msg
-- oil
+- scallion
+- egg
+- bean sprout
+- soy sauce
+- salt
+- sugar
+- sesame oil
+- chicken stock
+- oyster sauce
+- vegetable oil
 
 Steps:
-Step 1: make a batter with the'marinade' ingredients
-Step 2: put chicken pieces into it and mix well
-Step 3: set aside for 1 / 2 hour
-Step 4: heat oil , about 2 inches deep , in a wok / frypan
-Step 5: fry chicken pieces , in batches of 6-8 pieces , till cooked through
-Step 6: drain fried chicken on a paper towel
-Step 7: when all the chicken pieces are fried , remove oil from the pan , letting about 2 tablespoons remain in it
-Step 8: in a small bowl mix together cornstarch and water
-Step 9: put back the wok on fire and heat the 2 tblsps of oil
-Step 10: add green chillies , garlic , green pepper and shallot and stir fry for 30 secsonds
-Step 11: pour in soya sauce and vinegar
-Step 12: give it two three quick whisks and immediately add the cornstarch-water mixture
-Step 13: the sauce will thicken
-Step 14: if you find it too thick , add some more water
-Step 15: when the bubbles appear , add the fried chicken pieces
-Step 16: add salt and a pinch of msg
-Step 17: stir fry chicken for 2 minutes and remove from fire
-Step 18: serve hot with chinese fried rice / plain rice or noodles
+Step 1: heat wok
+Step 2: add 1 tbsp oil
+Step 3: crack eggs into hot oil and stir fry to scramble , remove
+Step 4: add additional oil to wok if needed , add onions , ginger , garlic , and light green parts of scallion
+Step 5: stir fry for 1-2 minutes until softened
+Step 6: add shrimp , pork and peppers , stir fry until heated through
+Step 7: add needle noodles and stir fry to mix well
+Step 8: add sauce ingredients , continue stirring
+Step 9: add green parts of scallions , bean sprouts , eggs , mix well , serve
+
+Do you like this recipe? (yes/no)
+
+You chose: no
+
+Here is a recipe you might like:
+
+Recipe Name: mandarin hot and sour pork soup
+
+Ingredients:
+- soup stock
+- square bean curd
+- dried black mushroom
+- wood ear mushroom
+- ham
+- chili oil
+- salt
+- sugar
+- egg
+- pork
+- bamboo shoot
+- button mushroom
+- scallion
+- vinegar
+- white pepper
+- sesame oil
+- soy sauce
+- cornstarch
+
+Steps:
+Step 1: bring soup stock to a boil , add
+Step 2: shredded pork , black mushrooms and wood ears
+Step 3: cook 2-3 minutes
+Step 4: add remainder of ingredients and seasonings reduce heat and simmer for 2 minutes
+Step 5: thicken with cornstarch and turn off heat
+Step 6: slowly pour in beaten eggs in a thin stream while stirring
+Step 7: serve immediately
+Step 8: garnish with green onion
+Step 9: if soup is to be prepared ahead of time , do not add cornstarch and eggs until serving time
+Step 10: otherwise the egg will be overcooked and spoil the appearance
+Step 11: soup should be quite hot and sour
+Step 12: adjust the hotness with varying amount of white pepper and the sourness with different amounts of vinegar
 
 Do you like this recipe? (yes/no)
 
@@ -167,7 +166,7 @@ You chose: yes
 
 Enjoy your meal!
 
-Thank you for using the Recipe Recommender System!
+Thank you for using Intelligent Recipe Suggestion System For Zero-Waste!
 ```
 
 # Process

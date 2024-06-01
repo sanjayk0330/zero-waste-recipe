@@ -211,4 +211,4 @@ From reading the dendrogram, cuisines which create earlier branches are more sim
 By combining our previous steps, we are able to construct our program. We first consider the users' initial ingredients and the ingredients' expiration dates. We then weight the ingredients based on their expiration date. In parallel, the program predicts the users' main cuisine type as well as similar cuisines depending on their openness to try new dishes. Lastly, the program matches recipes of the cuisine types based on the weighted ingredients. The process can be summarized in the picture listed below:
 
 <p align="center">
-<img src="/image/Product_Process.png" width="600"/>
+<img src="/image/product_flowchart.png" width="600"/>

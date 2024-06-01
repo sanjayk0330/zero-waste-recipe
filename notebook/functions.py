@@ -42,7 +42,7 @@ def generate_random_date():
 def get_user_openness():
     print("\nNext, how open are you to trying different cuisines?")
     while True:
-        print("\nPlease rate your openness on a scale of 1 to 5, where 1 means 'very slightly open' and 5 means 'extremely open.")
+        print("\nPlease rate your openness on a scale of 1 to 5, where 1 means 'very slightly open' and 5 means 'extremely open'")
         print("1: Very slightly open")
         print("2: Slightly open")
         print("3: Moderately open")
@@ -100,7 +100,7 @@ def display_recipe(index):
 # Define the main function
 def main():
     global Recipes_Preffered
-    print("Hi! Welcome to the Recipe Recommender System! We use machine learning to recommend recipes based\non the ingredients you have at home and your openness to different cuisines. Let\'s get started!")
+    print("Hi! Welcome to Intelligent Recipe Suggestion System For Zero-Waste! We use machine learning to recommend recipes based\non the ingredients you have at home and your openness to different cuisines. Let\'s get started!")
     print("\nWould you like to provide your own ingredients? (yes/no)")
     print("\nNote: If you choose 'no', we will use a random set of ingredients for you.")
     user_input = input().strip().lower()
@@ -216,12 +216,12 @@ def main():
         print(f"\nYou chose: {response}")
         if response == 'yes':
             print("\nEnjoy your meal!")
-            print("\nThank you for using the Recipe Recommender System!")
+            print("\nThank you for using Intelligent Recipe Suggestion System For Zero-Waste!")
             break
         index += 1
         if index >= len(indices_of_largest_entries):
             print("No more recipes to show.")
-            print("\nThank you for using the Recipe Recommender System!")
+            print("\nThank you for using Intelligent Recipe Suggestion System For Zero-Waste!")
         
 
 if __name__ == "__main__":

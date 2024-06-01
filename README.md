@@ -1,7 +1,7 @@
 # Zero Waste Recipe Recommender
 Our main goal was to determine and implement a method to help reduce the amount of food wasted by individual households. By using machine learning, we managed to achieve this goal by creating a program which recommends recipes based on at home ingredients prioritized by their expiration dates. 
 
-This repository contains our work in creating the program from its inception to its implemention. 
+This repository contains our work in creating the program from its inception to its implementation. 
 
 ## Summary
 We will follow with further details; however, our work can be summarized into the following steps:
@@ -10,7 +10,7 @@ We will follow with further details; however, our work can be summarized into th
 3. Training our ideal model on the cleaned dataset.
 4. Determining the correlation between cuisines from various cultures based on ingredients.
 5. Using the correlation between cuisines as a metric for clustering. 
-6. By using the model and clustering, we construct a function which outputs a reicpe from a cuisine which uses similar ingredients and prioritizes their expiration dates.
+6. By using the model and clustering, we construct a function which outputs a recipe from a cuisine which uses similar ingredients and prioritizes their expiration dates.
 
 ## Final Product
 
@@ -180,7 +180,7 @@ Our initial data from [Food.com](https://www.kaggle.com/datasets/shuyangli94/foo
 
 ## Cross-Validation
 
-In order to determine which classification model to use, we initialliy used cross-validation on a cleaned dataset provided by [Kaggle](https://www.kaggle.com/datasets/kaggle/recipe-ingredients-dataset). From our results shown below, we decided to implement LinearSVC.
+In order to determine which classification model to use, we initially used cross-validation on a cleaned dataset provided by [Kaggle](https://www.kaggle.com/datasets/kaggle/recipe-ingredients-dataset). From our results shown below, we decided to implement LinearSVC.
 
 <p align="center">
 <img src="/image/EDA_Kaggle.png" width="600"/>
@@ -194,7 +194,7 @@ Our decrease in accuracy is due to the larger number of cuisines in our cleaned 
 
 ## Cuisine Correlation and Clustering
 
-In order to consider the users' preference, we created a metric for determining the distance between two cuisines based on their ingredients. This can by calculated through their correlation where cuisines with high correlation have low distance between them. Below, we are attaching a heat map which shows the relation between the cuisines. 
+In order to consider the users' preference, we created a metric for determining the distance between two cuisines based on their ingredients. This can be calculated through their correlation where cuisines with high correlation have low distance between them. Below, we are attaching a heat map which shows the relation between the cuisines. 
 
 <p align="center">
 <img src="/image/cuisine_similarity_heatmap.png" width="600"/>

@@ -9,8 +9,9 @@ We will follow with further details; however, our work can be summarized into th
 2. Cross-validation of various models on the cleaned dataset to determine the ideal model.
 3. Training our ideal model on the cleaned dataset.
 4. Determining the correlation between cuisines from various cultures based on ingredients.
-5. Using the correlation between cuisines as a metric for clustering. 
-6. By using the model and clustering, we construct a function which outputs a recipe from a cuisine which uses similar ingredients and prioritizes their expiration dates.
+5. Using the correlation between cuisines as a metric for clustering.
+6. Based on the expiration dates of the ingredients, creating a method for scoring recipes.
+7. By using the model and clustering, we construct a function which outputs a recipe from a cuisine which uses similar ingredients and prioritizes their expiration dates.
 
 ## Final Product
 
@@ -204,6 +205,12 @@ This can be further illustrated with the following dendrogram:
 <img src="/image/cuisine_similarity_dendogram.png" width="600"/>
 
 From reading the dendrogram, cuisines which create earlier branches are more similar to each other. By using this metric, we are able to cluster the cuisines. 
+
+## Scoring Recipes
+In order to prioritize ingredients based on their expiration dates, we defined a metric which was inversely proportional to the number of days until the ingredients expired. This allowed us to create a weighted vector which we applied to our recipes to score them. This can be illustrated by the following picture:
+
+<p align="center">
+<img src="/image/Scoring_Recipes.png" width="600"/>
 
 ## Program Implementation
 

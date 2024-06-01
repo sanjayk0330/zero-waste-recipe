@@ -23,6 +23,7 @@ with open('../data/all_ingredients_list.txt', 'r') as f:
 # Initialize inflect engine for singularizing ingredients
 p = inflect.engine()
 
+# Define a function to singularize an ingredient
 def to_singular(ingredient):
     return p.singular_noun(ingredient) or ingredient
 
@@ -30,21 +31,31 @@ def to_singular(ingredient):
 def process_ingredient_list(ingredient_list):
     return [to_singular(ingredient) for ingredient in ingredient_list]
 
+# Define a function to generate a random date
 def generate_random_date():
     today = datetime.now()
-    random_days = random.randint(1, 20)
+    random_days = random.randint(1, 30)
     expiration_date = today + timedelta(days=random_days)
     return expiration_date.strftime("%Y-%m-%d")
 
+# Define a function to get user input for openness to different cuisines
 def get_user_openness():
-    print("On a scale of 1 to 5, how open are you to trying different cuisines?")
-    print("1: Not open at all")
-    print("2: Slightly open")
-    print("3: Moderately open")
-    print("4: Very open")
-    print("5: Extremely open")
-    return int(input("Enter a number between 1 and 5: "))
+    print("\nNext, how open are you to trying different cuisines?")
+    while True:
+        print("\nPlease rate your openness on a scale of 1 to 5, where 1 means 'very slightly open' and 5 means 'extremely open.")
+        print("1: Very slightly open")
+        print("2: Slightly open")
+        print("3: Moderately open")
+        print("4: Very open")
+        print("5: Extremely open")
+        user_input = input("Enter a number between 1 and 5: ").strip()
+        print(f"\nYour openness to different cuisines: {user_input}")
+        if user_input.isdigit() and 1 <= int(user_input) <= 5:
+            return int(user_input)
+        else:
+            print("Invalid input. Please enter a number between 1 and 5.")
 
+## Define a function to get user input for ingredients
 def get_user_ingredients():
     ingredients = {}
     print("\nEnter your ingredients and expiration dates (format: ingredient;YYYY-MM-DD). Type 'done' when finished:")
@@ -54,15 +65,18 @@ def get_user_ingredients():
             break
         try:
             ingredient, date_str = user_input.split(';')
+            ingredient = to_singular(ingredient.strip())
             expiration_date = datetime.strptime(date_str, '%Y-%m-%d')  # Validate date format
             if expiration_date < datetime.now():
                 print(f"{ingredient.strip()} is expired and will be ignored.")
             else:
                 ingredients[ingredient.strip()] = date_str.strip()
+                print(f"Added: {ingredient.strip()} (Expires on: {date_str.strip()})")
         except ValueError:
             print("Invalid format. Please enter in the format: ingredient;YYYY-MM-DD")
     return ingredients
 
+# Define a function to display ingredients with expiration dates
 def display_ingredients_with_expiration(df_ingredients):
     print("\nIngredients with Expiration Dates:")
     df_display = df_ingredients[['Expiration_Date', 'Days_Left']].copy()
@@ -71,8 +85,10 @@ def display_ingredients_with_expiration(df_ingredients):
     df_display = df_display.sort_values(by='Days_Left', ascending=True)
     print(df_display)
 
+# Define a function to display a recipe
 def display_recipe(index):
     recipe = Recipes_Preffered.iloc[index]
+    print("\nHere is a recipe you might like:")
     print(f"\nRecipe Name: {recipe['name']}")
     print("\nIngredients:")
     for ingredient in ast.literal_eval(recipe['replaced_ingredients']):
@@ -81,23 +97,25 @@ def display_recipe(index):
     for i, step in enumerate(ast.literal_eval(recipe['steps']), 1):
         print(f"Step {i}: {step}")
 
+# Define the main function
 def main():
-    global Recipes_Preffered  # Ensure Recipes_Preffered is accessible in display_recipe
-
-    openness_to_different_cuisines = get_user_openness()
-    
+    global Recipes_Preffered
+    print("Hi! Welcome to the Recipe Recommender System! We use machine learning to recommend recipes based\non the ingredients you have at home and your openness to different cuisines. Let\'s get started!")
     print("\nWould you like to provide your own ingredients? (yes/no)")
-    if input().strip().lower() == 'yes':
+    print("\nNote: If you choose 'no', we will use a random set of ingredients for you.")
+    user_input = input().strip().lower()
+    print(f"\nYou chose: {user_input}")
+    if user_input == 'yes':
         ingredients_at_home = get_user_ingredients()
     else:
         random_ingredients = [
-            'olive oil', 'chicken drumstick', 'beef', 'parsley', 'salmon',
+            'olive oil', 'chicken', 'beef', 'parsley', 'lettuce', 
             'bacon', 'sugar', 'onion', 'garlic', 'tomato', 'mayonnaise',
-            'cucumber', 'lemon', 'yogurt', 'pepper', 'eggplant', 'milk', 'lamb',
-            'chili', 'potato', 'carrot', 'cabbage', 'broccoli', 'lettuce'
+            'cucumber', 'lemon', 'yogurt', 'pepper', 'eggplant', 'milk',
+            'chili', 'potato', 'carrot', 'cabbage', 'broccoli'
         ]
         ingredients_at_home = {ingredient: generate_random_date() for ingredient in random_ingredients}
-        print(f"\nUsing random ingredients: {list(ingredients_at_home.keys())}")
+        print(f"\nRandom ingredients: {list(ingredients_at_home.keys())}")
     
     ingredients_at_home_processed = process_ingredient_list(list(ingredients_at_home.keys()))
     ingredients_at_home_appended = [" ".join(ingredients_at_home_processed)]
@@ -108,7 +126,9 @@ def main():
     # Transform the ingredients at home
     ingredients_at_home_appended = vectorizer.transform(ingredients_at_home_appended)
     ingredients_at_home_cuisine_type = cuisine_ingredient_model.predict(ingredients_at_home_appended)[0]
-    print(f"\nThe ingredients you have are similar to the ingredients used in {ingredients_at_home_cuisine_type} cuisine.")
+    print(f"\nThe ingredients you have are similar to the ingredients used in {ingredients_at_home_cuisine_type.upper()} cuisine based on our system.")
+
+    openness_to_different_cuisines = get_user_openness()
     
     # Convert to a DataFrame
     df_ingredients = pd.DataFrame(list(ingredients_at_home.items()), columns=['Ingredient', 'Expiration_Date'])
@@ -193,12 +213,16 @@ def main():
         display_recipe(indices_of_largest_entries[index])
         print("\nDo you like this recipe? (yes/no)")
         response = input().strip().lower()
+        print(f"\nYou chose: {response}")
         if response == 'yes':
             print("\nEnjoy your meal!")
+            print("\nThank you for using the Recipe Recommender System!")
             break
         index += 1
         if index >= len(indices_of_largest_entries):
             print("No more recipes to show.")
-            
+            print("\nThank you for using the Recipe Recommender System!")
+        
+
 if __name__ == "__main__":
     main()

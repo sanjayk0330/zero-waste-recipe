@@ -1,14 +1,12 @@
 milk;2024-03-01
 bread;2024-05-30
-eggs:2024-06-05-
+egg:2024-06-05-
 eggs;2024-06-05
 mayonnaise;2024-12-01
 red wine;2025-12-01
-vinger;2025-12-01
+vinegar;2025-12-01
 salt;2026-12-01
 chicken breast;2024-06-12
 pork;2024-06-12
 black pepper;2026-12-01
 oil;2026-12-01
-salmon;2024-07-12
-beef;2024-06-03

@@ -1,4 +1,4 @@
-# Zero Waste Recipe Recommender
+# Intelligent Recipe Suggestion System For Zero-Waste
 Our main goal was to determine and implement a method to help reduce the amount of food wasted by individual households. By using machine learning, we managed to achieve this goal by creating a program which recommends recipes based on at home ingredients prioritized by their expiration dates. 
 
 This repository contains our work in creating the program from its inception to its implementation. 

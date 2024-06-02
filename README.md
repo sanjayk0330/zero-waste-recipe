@@ -178,9 +178,9 @@ Thank you for using Intelligent Recipe Suggestion System For Zero-Waste!
 
 ## Demo Video
 
-We have included a demo video of using the final product below: (You can change the playback speed to slow it down.)
+We have included a demo video of using the final product below:
 
-https://github.com/sanjayk0330/zero-waste-recipe/assets/146881479/134da12e-7e18-4e7a-85cf-026004fef0a0
+https://github.com/sanjayk0330/zero-waste-recipe/assets/146881479/93ad2e61-7adb-4061-af20-94abad51bc3f
 
 # Process
 

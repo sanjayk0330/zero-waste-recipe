@@ -3,6 +3,12 @@ Our main goal was to determine and implement a method to help reduce the amount 
 
 This repository contains our work in creating the program from its inception to its implementation. 
 
+## Authors 
+- Chun-hao (Larry) Chen 
+- Deniz Genlik
+- Sanjay Kumar &nbsp;<a href="https://www.linkedin.com/in/sanjay-kumar0330/"><img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn" style="height: 1em; width:auto;"/></a> &nbsp; <a href="https://github.com/sanjayk0330"> <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub" style="height: 1em; width: auto;"/></a>
+- Sevim Polat Genlik
+
 ## Summary
 We will follow with further details; however, our work can be summarized into the following steps:
 1. Preprocessing of the dataset from [Food.com](https://www.kaggle.com/datasets/shuyangli94/food-com-recipes-and-user-interactions?select=PP_users.csv).

@@ -170,6 +170,12 @@ Enjoy your meal!
 Thank you for using Intelligent Recipe Suggestion System For Zero-Waste!
 ```
 
+## Demo Video
+
+We have included a demo video of using the final product below:
+
+https://github.com/sanjayk0330/zero-waste-recipe/assets/146881479/134da12e-7e18-4e7a-85cf-026004fef0a0
+
 # Process
 
 We will now discuss our overall process in constructing the program. More details can be found in the documents provided in the notebooks. 
